@@ -9,9 +9,12 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 2f;
+    [SerializeField] private PlayerInteraction _interaction;
 
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
+
+    public bool CanMove = true;
 
     private void Awake()
     {
@@ -20,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!CanMove) return;
         _rb.velocity = new Vector2(_moveInput.x * _moveSpeed, _moveInput.y * _moveSpeed);
     }
 
@@ -30,6 +34,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnInteract(InputValue inputValue)
     {
-
+        _interaction.InteractWithObject();
     }
 }
