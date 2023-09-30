@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,5 +25,18 @@ public class InventorySlot : MonoBehaviour
     public void ChangeQuantity(int Quantity)
     {
         _quantity += Quantity;
+        if(_quantity == 0)
+        {
+            Inventory.PlayerInventory.RemoveItem(Item);
+        }
     }
+
+    public void DropItem()
+    {
+        Debug.Log("Consumed the Item!");
+        ChangeQuantity(-1);
+        GameObject DroppedItem = Instantiate(Item.SpawnablePrefab, PlayerMovement.PlayerInstance.transform.position, Quaternion.identity);
+        DroppedItem.GetComponent<ItemPickup>().SetItem(Item);
+    }
+
 }

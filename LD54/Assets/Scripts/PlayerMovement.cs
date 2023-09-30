@@ -9,7 +9,10 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
-    public int HP = 4;
+    public static PlayerMovement PlayerInstance;
+
+    public int HP = 2;
+    private int _maxHP = 2;
     public int AP = 1;
 
     [SerializeField] private float _moveSpeed = 2f;
@@ -23,6 +26,14 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        if(PlayerInstance != null )
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            PlayerInstance = this;
+        }
     }
 
     private void Start()
@@ -57,9 +68,21 @@ public class PlayerMovement : MonoBehaviour
 #endif
     }
 
+    public void IncreaseMaxHealth()
+    {
+        _maxHP++;
+        ChangeHealth(_maxHP);
+    }
+
     public void ChangeHealth(int amount)
     {
-        HP += amount;
+        if(HP + amount > _maxHP)
+        {
+            HP = _maxHP;
+        } else
+        {
+            HP += amount;
+        }
         OnPlayerHPChanged?.Invoke(HP);
     }
     public static Action<int> OnPlayerHPChanged;

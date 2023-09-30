@@ -4,13 +4,5 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
-    //public void OnMouseOver()
-    //{
-    //    if (Input.GetMouseButtonDown(1))
-    //    {
-    //        OnInteract();
-    //    }
-    //}
-
     public abstract void OnInteract();
 }
