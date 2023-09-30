@@ -50,6 +50,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if(HP <= 0)
+        {
+            Debug.LogWarning("PLAYER HAS DIED");
+        }
+
+
 #if UNITY_EDITOR
         // Debug Health Change Check
         if (Input.GetKeyDown(KeyCode.F1))
