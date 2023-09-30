@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Pebbles
   Icon: {fileID: 21300000, guid: 7d3368a0bdada2443bf058f0e1be1d4e, type: 3}
-  SpawnablePrefab: {fileID: 0}
+  SpawnablePrefab: {fileID: 220850082095213491, guid: 3da83769e224f624eb414eddd2daf381, type: 3}

@@ -12,7 +12,7 @@ public class Inventory : MonoBehaviour
     {
         if (PlayerInventory != null)
         {
-            Destroy(PlayerInventory);
+            Destroy(this.gameObject);
         }
         else
         {
@@ -44,6 +44,19 @@ public class Inventory : MonoBehaviour
             newSlot.GetComponent<InventorySlot>().ChangeQuantity(Quantity);
             newSlot.GetComponent<InventorySlot>().Setup();
             _inventorySlots.Add(newSlot.GetComponent<InventorySlot>());
+        }
+    }
+
+    public void RemoveItem(Item item)
+    {
+        foreach (InventorySlot slot in _inventorySlots)
+        {
+            if (slot.Item == item)
+            {
+                Destroy(slot.gameObject);
+                _inventorySlots.Remove(slot);
+                break;
+            }
         }
     }
 

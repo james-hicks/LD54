@@ -8,7 +8,6 @@ public class PlayerInteraction : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Item Enter");
         if (collision.TryGetComponent(out Interactable item))
         {
             _nearbyItem = item;
@@ -17,7 +16,6 @@ public class PlayerInteraction : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("Item Exit");
         if (collision.TryGetComponent(out Interactable item))
         {
             if(item ==  _nearbyItem)
