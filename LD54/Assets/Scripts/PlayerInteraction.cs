@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    public Interactable _nearbyItem;
-
+    private Interactable _nearbyItem;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
