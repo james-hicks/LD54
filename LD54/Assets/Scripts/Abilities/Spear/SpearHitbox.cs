@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpearHitbox : MonoBehaviour
 {
-    public List<GameObject> enemies = new List<GameObject>();
+    public List<EnemyMovement> enemies = new List<EnemyMovement>();
     /// <summary>
     /// Sent when another object enters a trigger collider attached to this
     /// object (2D physics only).
@@ -12,9 +12,9 @@ public class SpearHitbox : MonoBehaviour
     /// <param name="other">The other Collider2D involved in this collision.</param>
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent(out Interactable item))
+        if (other.TryGetComponent(out EnemyMovement enemy))
         {
-            enemies.Add(other.gameObject);
+            enemies.Add(enemy);
         }
     }
 
@@ -25,6 +25,12 @@ public class SpearHitbox : MonoBehaviour
     /// <param name="other">The other Collider2D involved in this collision.</param>
     void OnTriggerExit2D(Collider2D other)
     {
-
+        if (other.TryGetComponent(out EnemyMovement enemy))
+        {
+            if (enemies.Contains(enemy))
+            {
+                enemies.Remove(enemy);
+            }
+        }
     }
 }

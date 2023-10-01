@@ -5,26 +5,20 @@ using UnityEngine;
 
 public class Spear : Ability
 {
-    [SerializeField] private GameObject spearHitbox;
+    int damage = 1;
+    [SerializeField] private SpearHitbox spearHitbox;
     // Start is called before the first frame update
     void Start()
     {
 
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     // Use the spear
     public override void execute()
     {
-        // "stab" forwards slightly
-
-        // Check if collision
-
-        // delete spear object
+        Debug.Log("USE SPEAR");
+        foreach (EnemyMovement enemy in spearHitbox.enemies)
+        {
+            enemy.HP -= damage;
+        }
     }
 }

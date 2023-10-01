@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Ability : MonoBehaviour
 {
+    public float cooldown = 2f;
+    private float currentCooldown = 0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -11,9 +13,14 @@ public abstract class Ability : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
-
+        currentCooldown += Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.Mouse0) && currentCooldown >= cooldown)
+        {
+            execute();
+            currentCooldown = 0;
+        }
     }
 
     // Overiddable method to use an ability
