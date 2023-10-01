@@ -10,7 +10,6 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement PlayerInstance;
-
     public int HP = 2;
     private int _maxHP = 2;
     public int AP = 1;
@@ -23,10 +22,17 @@ public class PlayerMovement : MonoBehaviour
 
     public bool CanMove = true;
 
+    // Dashing Variables
+    public bool canDash = true;
+    public bool isDashing;
+    private float dashingPower = 24f;
+    private float dashingTime = 0.2f;
+    private float dashingCooldown = 1f;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        if(PlayerInstance != null )
+        if (PlayerInstance != null)
         {
             Destroy(this.gameObject);
         }
@@ -44,13 +50,18 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         if (!CanMove) return;
+        if (isDashing) return;
         _rb.velocity = new Vector2(_moveInput.x * _moveSpeed, _moveInput.y * _moveSpeed);
 
+        if (Input.GetKeyDown(KeyCode.Space) && canDash)
+        {
+            StartCoroutine(Dash());
+        }
     }
 
     private void Update()
     {
-        if(HP <= 0)
+        if (HP <= 0)
         {
             Debug.LogWarning("PLAYER HAS DIED");
         }
@@ -82,10 +93,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void ChangeHealth(int amount)
     {
-        if(HP + amount > _maxHP)
+        if (HP + amount > _maxHP)
         {
             HP = _maxHP;
-        } else
+        }
+        else
         {
             HP += amount;
         }
@@ -105,6 +117,17 @@ public class PlayerMovement : MonoBehaviour
     private void OnMove(InputValue inputValue)
     {
         _moveInput = inputValue.Get<Vector2>();
+    }
+
+    private IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+        _rb.velocity = new Vector2(transform.localScale.x * dashingPower, transform.localScale.y * dashingPower);
+        yield return new WaitForSeconds(dashingTime);
+        isDashing = false;
+        yield return new WaitForSeconds(dashingCooldown);
+        canDash = true;
     }
 
     private void OnInteract(InputValue inputValue)
