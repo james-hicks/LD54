@@ -65,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.LogWarning("PLAYER HAS DIED");
         }
+        if (isDashing) return;
 
 
 #if UNITY_EDITOR
@@ -121,13 +122,16 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator Dash()
     {
+        if (_moveInput.x + _moveInput.y == 0f) yield break;
         canDash = false;
         isDashing = true;
-        _rb.velocity = new Vector2(transform.localScale.x * dashingPower, transform.localScale.y * dashingPower);
+        Debug.Log("Dashing");
+        _rb.velocity = new Vector2(_moveInput.x * dashingPower, _moveInput.y * dashingPower);
         yield return new WaitForSeconds(dashingTime);
         isDashing = false;
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
+        Debug.Log("Dash Back Up");
     }
 
     private void OnInteract(InputValue inputValue)
