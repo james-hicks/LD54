@@ -91,6 +91,7 @@ public class EnemyMovement : MonoBehaviour
         if (HP <= 0)
         {
             CurrentState = BaseState.Death;
+            _path = null;
         }
 
 
@@ -158,6 +159,7 @@ public class EnemyMovement : MonoBehaviour
         // Die
         if (_hasDied) return;
         Debug.Log(gameObject.name + " has Died.");
+        _enemyAnimator.SetBool("Death", true);
         Destroy(gameObject, 3f);
         _hasDied = true;
 
@@ -171,6 +173,13 @@ public class EnemyMovement : MonoBehaviour
             }
         }
     }
+
+    private void OnDestroy()
+    {
+        UnitDeath.Invoke(gameObject);
+    }
+
+    public Action<GameObject> UnitDeath;
 }
 
 public enum BaseState
