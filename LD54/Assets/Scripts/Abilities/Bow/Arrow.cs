@@ -27,6 +27,11 @@ public class Arrow : MonoBehaviour
             enemy.HP -= damage + PlayerMovement.PlayerInstance.AP;
             DestroyProjectile();
         }
+        if (collision.TryGetComponent(out ElderTree tree))
+        {
+            tree.HP -= damage + PlayerMovement.PlayerInstance.AP;
+            DestroyProjectile();
+        }
     }
 
     void DestroyProjectile()

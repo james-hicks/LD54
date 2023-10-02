@@ -21,13 +21,14 @@ public class Bow : Ability
 
     public override void execute()
     {
-        if(Inventory.PlayerInventory.GetItem(ammo) != null)
+        if (Inventory.PlayerInventory.GetItem(ammo) != null)
         {
             Instantiate(projectile, shotPoint.position, transform.rotation);
             Inventory.PlayerInventory.GetItem(ammo).ChangeQuantity(-1);
         }
         else
         {
+            Instantiate(projectile, shotPoint.position, transform.rotation);
             Debug.LogError("OUT OF AMMO");
         }
 
