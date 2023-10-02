@@ -28,9 +28,12 @@ public class Bow : Ability
         }
         else
         {
+#if UNITY_EDITOR
             Instantiate(projectile, shotPoint.position, transform.rotation);
             Debug.LogError("OUT OF AMMO");
+#endif
         }
+
 
     }
 
