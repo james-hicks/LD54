@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Berry
   m_EditorClassIdentifier: 
   Name: Juicy Berry
-  Icon: {fileID: 21300000, guid: 8c4d22bccccda824ebe87e75f9678dcb, type: 3}
+  Icon: {fileID: 21300000, guid: 466fa4aabf580514b93aff0a750b370b, type: 3}
   SpawnablePrefab: {fileID: 220850082095213491, guid: 3da83769e224f624eb414eddd2daf381, type: 3}

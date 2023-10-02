@@ -11,6 +11,8 @@ public class PlayerInteraction : MonoBehaviour
         if (collision.TryGetComponent(out Interactable item))
         {
             _nearbyItem = item;
+            item.PlayerInRange = true;
+
         }
     }
 
@@ -21,6 +23,7 @@ public class PlayerInteraction : MonoBehaviour
             if(item ==  _nearbyItem)
             {
                 _nearbyItem = null;
+                item.PlayerInRange = false;
             }
         }
     }

@@ -26,8 +26,11 @@ public class ItemPickup : Interactable
     public Item GetItem()
     {
         return item;
+    }
 
-
+    public override void Update()
+    {
+        InteractUI.SetActive(PlayerInRange && CanPickup);
     }
 
     public override void OnInteract()

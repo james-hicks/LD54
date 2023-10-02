@@ -16,16 +16,18 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float _moveSpeed = 2f;
     [SerializeField] private PlayerInteraction _interaction;
+    [SerializeField] private Animator _playerAnimator;
 
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
+    private bool _died;
 
     public bool CanMove = true;
 
     // Dashing Variables
     public bool canDash = true;
     public bool isDashing;
-    private float dashingPower = 24f;
+    private float dashingPower = 12f;
     private float dashingTime = 0.2f;
     private float dashingCooldown = 1f;
 
@@ -64,7 +66,18 @@ public class PlayerMovement : MonoBehaviour
         if (HP <= 0)
         {
             Debug.LogWarning("PLAYER HAS DIED");
+            Die();
         }
+
+        if(_moveInput.x != 0 || _moveInput.y != 0)
+        {
+            _playerAnimator.SetBool("Moving", true);
+        }
+        else
+        {
+            _playerAnimator.SetBool("Moving", false);
+        }
+
         if (isDashing) return;
 
 
@@ -113,6 +126,18 @@ public class PlayerMovement : MonoBehaviour
 
     }
     public static Action<int> OnPlayerAPChanged;
+
+
+    private void Die()
+    {
+        if(_died) return;
+        _died = true;
+
+        transform.position = Vector3.zero;
+        ChangeHealth(_maxHP);
+        _died = false;
+
+    }
 
     #region Input Management
     private void OnMove(InputValue inputValue)

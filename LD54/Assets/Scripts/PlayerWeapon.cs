@@ -8,8 +8,8 @@ public class PlayerWeapon : MonoBehaviour
     public Bow bow;
     public Ability weapon;
 
-    public float cooldown = 2f;
-    private float currentCooldown = 0f;
+    public float cooldown = 1f;
+    private float currentCooldown = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,13 +28,14 @@ public class PlayerWeapon : MonoBehaviour
         {
             weapon = bow;
         }
-        spear.gameObject.SetActive(weapon == spear);
-        bow.gameObject.SetActive(weapon == bow);
+        if(spear != null) spear.gameObject.SetActive(weapon == spear);
+        if(bow != null) bow.gameObject.SetActive(weapon == bow);
 
         // Use Weapons
         currentCooldown += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Mouse0) && currentCooldown >= cooldown)
         {
+            Debug.Log("Executing Ability");
             weapon.execute();
             currentCooldown = 0;
         }
