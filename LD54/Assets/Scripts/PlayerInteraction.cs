@@ -32,8 +32,10 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (_nearbyItems[0] != null)
         {
-            _nearbyItems[0].OnInteract();
+            Interactable interactable = _nearbyItems[0];
             _nearbyItems.Remove(_nearbyItems[0]);
+            interactable.OnInteract();
+            
         }
     }
 }
