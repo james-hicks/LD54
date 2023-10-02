@@ -44,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Physics2D.IgnoreLayerCollision(7, 8);
+        Physics2D.IgnoreLayerCollision(8, 8);
     }
 
     private void Start()

@@ -13,6 +13,7 @@ public class BearMovement : EnemyMovement
     [SerializeField] private float _chargeCooldown = 10f;
     [SerializeField] private float _chargeWarmup = 2f;
     [SerializeField] private float _stunDuration = 3f;
+    [SerializeField] private Transform _chargeIndicator;
     private float _chargeCooldownRemaining;
 
     public override void Start()
@@ -132,21 +133,26 @@ public class BearMovement : EnemyMovement
     }
 
     private bool charging = false;
+    private Vector3 ChargeDirection;
     public void Charge()
     {
         if (isCharging) return;
         isCharging = true;
 
         Debug.Log("Start Charge Warmup");
-        StartCoroutine(Charging());
+        _rb.velocity = Vector2.zero;
+        ChargeDirection = target.position - transform.position;
+        _chargeIndicator.gameObject.SetActive(true);
+        _enemyAnimator.SetBool("Charge", true);
+        Vector3 chargeDirectionArrow = (_chargeIndicator.transform.position - target.position).normalized;
+        _chargeIndicator.rotation = Quaternion.FromToRotation(Vector3.down, chargeDirectionArrow);
     }
 
-    private IEnumerator Charging()
+    public void ChargeAttack()
     {
-        _rb.velocity = Vector2.zero;
-        Vector3 ChargeDirection = target.position - transform.position;
-        yield return new WaitForSeconds(_chargeWarmup);
         Debug.Log("Start Charge Action");
+        _enemyAnimator.SetBool("Charge", false);
+        _chargeIndicator.gameObject.SetActive(false);
         charging = true;
         _rb.velocity = new Vector2(ChargeDirection.x * _chargePower, ChargeDirection.y * _chargePower);
     }
@@ -163,7 +169,9 @@ public class BearMovement : EnemyMovement
     private IEnumerator Stun()
     {
         Debug.Log("Stunned");
+        _enemyAnimator.SetBool("Stunned", true);
         yield return new WaitForSeconds(_stunDuration);
+        _enemyAnimator.SetBool("Stunned", false);
         isStunned = false;
         isCharging = false;
     }
