@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6acf89f02ead2c47ada80cf90d373a9, type: 3}
+  m_Name: KingShroomDialogue
+  m_EditorClassIdentifier: 
+  KeyDialogues:
+  - I must... grow... Go my... little shroom... find the Fragrant Flower... to grow
+    my influence over the forest...
+  - I can feel... more of the forest... but the forest... it is upset... continue
+    your push... and collect for me... a Bear's Hide... be careful young one...
+  - There is a disturbance... in this forest... I  cannot consume it... until the
+    guardian tree... has been felled... take care of it  my pawn...
+  InteractDialogue:
+  - Bring me... berries and I... shall increase your vitality... little one
+  - Bring me... sticks and you shall grow... stronger

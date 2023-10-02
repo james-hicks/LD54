@@ -7,18 +7,16 @@ public class Spear : Ability
 {
     int damage = 1;
     [SerializeField] private SpearHitbox spearHitbox;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    [SerializeField] private Animator animator;
     // Use the spear
     public override void execute()
     {
+        animator.SetTrigger("Attack");
         Debug.Log("USE SPEAR");
         foreach (EnemyMovement enemy in spearHitbox.enemies)
         {
-            enemy.HP -= damage;
+            enemy.HP -= damage + PlayerMovement.PlayerInstance.AP;
+
         }
     }
 }

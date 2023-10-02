@@ -3,46 +3,51 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 using Unity.VisualScripting;
+using Unity.VisualScripting.FullSerializer;
+using System;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] private Transform _enemyGFX;
+    [SerializeField] protected Transform _enemyGFX;
     [Header("Enemy Stats")]
     public int HP = 2;
     public int AP = 1;
-    [SerializeField] private float _speed = 4f;
-    [SerializeField] private float _attackCooldown = 2f;
+    [SerializeField] protected float _speed = 4f;
+    [SerializeField] protected float _attackCooldown = 2f;
+    [SerializeField] protected List<Drops> _drops = new List<Drops>();
+    [SerializeField] protected Animator _enemyAnimator;
 
 
     [Header("Pathfinding Settings")]
-    [SerializeField] private float _nextWaypointDistance = 1f;
-    [SerializeField] private float _attackDistance = 1.5f;
-    [SerializeField] private float _awareDistance = 15f;
+    [SerializeField] protected float _nextWaypointDistance = 1f;
+    [SerializeField] protected float _attackDistance = 1.5f;
+    [SerializeField] protected float _awareDistance = 15f;
 
     [Header("State Debug")]
-    public State CurrentState;
+    public BaseState CurrentState;
 
     public Transform target => PlayerMovement.PlayerInstance.transform;
 
-    private Path _path;
-    private int _currentWaypoint = 0;
-    private bool _reachedEndofPath = false;
-    private Seeker _seeker;
-    private Rigidbody2D _rb;
+    protected Path _path;
+    protected int _currentWaypoint = 0;
+    protected bool _reachedEndofPath = false;
+    protected Seeker _seeker;
+    protected Rigidbody2D _rb;
+    protected bool _hasDied = false;
 
-    private void Awake()
+    public virtual void Awake()
     {
         _seeker = GetComponent<Seeker>();
         _rb = GetComponent<Rigidbody2D>();
     }
 
-    private void Start()
+    public virtual void Start()
     {
-        CurrentState = State.Idle;
+        CurrentState = BaseState.Idle;
         InvokeRepeating("UpdatePath", 0f, .5f);
     }
 
-    private void OnPathComplete(Path p)
+    public virtual void OnPathComplete(Path p)
     {
         if (!p.error)
         {
@@ -51,9 +56,9 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    private void UpdatePath()
+    public virtual void UpdatePath()
     {
-        if (CurrentState != State.Chase) return;
+        if (CurrentState != BaseState.Chase) return;
 
         if (_seeker.IsDone())
         {
@@ -62,68 +67,69 @@ public class EnemyMovement : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
+    public virtual void FixedUpdate()
     {
         if (Vector2.Distance(_rb.position, target.position) <= _awareDistance)
         {
-            CurrentState = State.Chase;
+            CurrentState = BaseState.Chase;
         }
         else if (Vector2.Distance(_rb.position, target.position) > _awareDistance)
         {
-            CurrentState = State.Idle;
+            CurrentState = BaseState.Idle;
         }
 
 
         if (Vector2.Distance(_rb.position, target.position) <= _attackDistance)
         {
-            CurrentState = State.Attack;
+            CurrentState = BaseState.Attack;
         }
         else
         {
-            attackDelay = 0f;
+            _enemyAnimator.SetBool("Attack", false);
         }
         
         if (HP <= 0)
         {
-            CurrentState = State.Death;
+            CurrentState = BaseState.Death;
         }
 
 
         switch (CurrentState)
         {
-            case State.Idle:
+            case BaseState.Idle:
                 break;
-            case State.Attack:
-                Attack();
+            case BaseState.Attack:
+                StartAttack();
                 break;
-            case State.Chase:
+            case BaseState.Chase:
                 Chase();
                 break;
-            case State.Death:
+            case BaseState.Death:
                 Death();
                 break;
         }
 
+        _enemyAnimator.SetBool("Move", _rb.velocity.magnitude > 0.5f || _rb.velocity.magnitude < -0.5f);
+        //if (_rb.velocity.magnitude > 0.5f || _rb.velocity.magnitude < -0.5f)
+        //{
+        //    _enemyAnimator.SetBool("Move", true);
+        //}
     }
-
-    private float attackDelay = 0f;
-    protected virtual void Attack()
+    public virtual void StartAttack()
     {
         // Attack player
-        attackDelay += Time.deltaTime;
-        if(attackDelay >= _attackCooldown)
-        {
-            PlayerMovement.PlayerInstance.ChangeHealth(-AP);
-            Debug.Log($"{gameObject.name} has attacked {PlayerMovement.PlayerInstance.gameObject.name} dealing {AP} damage.");
-            attackDelay = 0f;
-        }
-
+        _enemyAnimator.SetBool("Attack", true);
     }
 
-    protected virtual void Chase()
+    public virtual void Attack()
+    {
+        PlayerMovement.PlayerInstance.ChangeHealth(-AP);
+        Debug.Log($"{gameObject.name} has attacked {PlayerMovement.PlayerInstance.gameObject.name} dealing {AP} damage.");
+    }
+
+    public virtual void Chase()
     {
         if (_path == null) return;
-
         if (_currentWaypoint >= _path.vectorPath.Count)
         {
             _reachedEndofPath = true;
@@ -147,17 +153,37 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    protected virtual void Death()
+    public virtual void Death()
     {
         // Die
+        if (_hasDied) return;
         Debug.Log(gameObject.name + " has Died.");
+        Destroy(gameObject, 3f);
+        _hasDied = true;
+
+        foreach(var drop in _drops)
+        {
+            int rng = UnityEngine.Random.Range(0, 10);
+            if(drop.DropRate >= rng)
+            {
+                GameObject a = Instantiate(drop.ItemDrop.SpawnablePrefab, transform.position, Quaternion.identity);
+                a.GetComponent<ItemPickup>().SetItem(drop.ItemDrop);
+            }
+        }
     }
 }
 
-public enum State
+public enum BaseState
 {
     Idle,
     Chase,
     Attack,
     Death
+}
+
+[Serializable]
+public class Drops
+{
+    public int DropRate;
+    public Item ItemDrop;
 }
