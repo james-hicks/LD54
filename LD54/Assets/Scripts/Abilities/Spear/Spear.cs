@@ -16,6 +16,8 @@ public class Spear : Ability
         foreach (EnemyMovement enemy in spearHitbox.enemies)
         {
             enemy.HP -= damage + PlayerMovement.PlayerInstance.AP;
+            PlayerMovement.PlayerInstance._playerAudioSource.clip = PlayerMovement.PlayerInstance._hitEnemy;
+            PlayerMovement.PlayerInstance._playerAudioSource.Play();
 
         }
     }

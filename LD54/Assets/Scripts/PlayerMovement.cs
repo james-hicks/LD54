@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
+using Unity.XR.GoogleVr;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +18,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _moveSpeed = 2f;
     [SerializeField] private PlayerInteraction _interaction;
     [SerializeField] private Animator _playerAnimator;
+
+    public AudioSource _playerAudioSource;
+    public AudioClip _hitEnemy;
+    public AudioClip _hitPlayer;
 
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
@@ -117,6 +122,13 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             HP += amount;
+        }
+
+
+        if(amount < 0)
+        {
+            _playerAudioSource.clip = _hitPlayer;
+            _playerAudioSource.Play();
         }
         OnPlayerHPChanged?.Invoke(HP);
     }

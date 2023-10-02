@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: b9dbef4dca7f5fa4b9a2f1df29d8bcef, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -156,7 +156,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: b9dbef4dca7f5fa4b9a2f1df29d8bcef, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -240,7 +240,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: b9dbef4dca7f5fa4b9a2f1df29d8bcef, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -324,7 +324,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: b9dbef4dca7f5fa4b9a2f1df29d8bcef, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -408,7 +408,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: b9dbef4dca7f5fa4b9a2f1df29d8bcef, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -474,6 +474,22 @@ PrefabInstance:
     - target: {fileID: 5701159706734156761, guid: 3ceaf729fb9561c4db6f7f836259aaf0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701159706734156765, guid: 3ceaf729fb9561c4db6f7f836259aaf0, type: 3}
+      propertyPath: m_Size.x
+      value: 1.2032502
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701159706734156765, guid: 3ceaf729fb9561c4db6f7f836259aaf0, type: 3}
+      propertyPath: m_Size.y
+      value: 1.7348269
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701159706734156765, guid: 3ceaf729fb9561c4db6f7f836259aaf0, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.01954329
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701159706734156765, guid: 3ceaf729fb9561c4db6f7f836259aaf0, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.17588931
       objectReference: {fileID: 0}
     - target: {fileID: 5701159707727165971, guid: 3ceaf729fb9561c4db6f7f836259aaf0, type: 3}
       propertyPath: m_Sprite

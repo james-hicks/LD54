@@ -19,6 +19,8 @@ public class KingShroom : Interactable
     [SerializeField] private float _textCooldown = 0.1f;
     private float _currentTextCooldown;
 
+    public AudioSource source;
+    public AudioClip upgrade;
 
     private bool _canInteract = true;
     private List<string> _displayText = new List<string>();
@@ -148,10 +150,14 @@ public class KingShroom : Interactable
         if(newItem == _hpBoostItem)
         {
             PlayerMovement.PlayerInstance.IncreaseMaxHealth();
+            source.clip = upgrade;
+            source.Play();
 
         } else if (newItem == _apBoostItem)
         {
             PlayerMovement.PlayerInstance.ChangeAttackPower(1);
+            source.clip = upgrade;
+            source.Play();
         } else if (newItem == _fragrantFlower)
         {
             progress = 1;

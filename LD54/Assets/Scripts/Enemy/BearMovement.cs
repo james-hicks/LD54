@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -15,6 +16,13 @@ public class BearMovement : EnemyMovement
     [SerializeField] private float _stunDuration = 3f;
     [SerializeField] private Transform _chargeIndicator;
     private float _chargeCooldownRemaining;
+
+
+    [Header("Bear Sounds")]
+    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioClip _attack;
+    [SerializeField] private AudioClip _death;
+    [SerializeField] private AudioClip _charge;
 
     public override void Start()
     {
@@ -120,6 +128,8 @@ public class BearMovement : EnemyMovement
 
     public override void Attack()
     {
+        source.clip = _attack;
+        source.Play();
         Collider2D[] hitColliders = Physics2D.OverlapBoxAll(transform.position, new Vector2(4, 4), 0);
         foreach (Collider2D col in hitColliders)
         {
@@ -151,6 +161,8 @@ public class BearMovement : EnemyMovement
     public void ChargeAttack()
     {
         Debug.Log("Start Charge Action");
+        source.clip = _charge;
+        source.Play();
         _enemyAnimator.SetBool("Charge", false);
         _chargeIndicator.gameObject.SetActive(false);
         charging = true;
@@ -174,6 +186,30 @@ public class BearMovement : EnemyMovement
         _enemyAnimator.SetBool("Stunned", false);
         isStunned = false;
         isCharging = false;
+    }
+
+    public override void Death()
+    {
+        // Die
+        if (_hasDied) return;
+        source.clip = _death;
+        source.Play();
+        Debug.Log(gameObject.name + " has Died.");
+        _enemyAnimator.SetBool("Death", true);
+        Destroy(gameObject, 3f);
+        _hasDied = true;
+
+        foreach (var drop in _drops)
+        {
+            int rng = UnityEngine.Random.Range(0, 10);
+            if (drop.DropRate >= rng)
+            {
+                GameObject a = Instantiate(drop.ItemDrop.SpawnablePrefab, transform.position, Quaternion.identity);
+                a.transform.position += new Vector3(UnityEngine.Random.Range(0.2f, 1f), UnityEngine.Random.Range(0.2f, 1f), 0);
+                if (a.GetComponent<ItemPickup>() != null) a.GetComponent<ItemPickup>().SetItem(drop.ItemDrop);
+                if (a.GetComponent<AbilityPickup>() != null) a.GetComponent<AbilityPickup>().SetItem(drop.ItemDrop);
+            }
+        }
     }
 }
 
