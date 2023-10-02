@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    private Interactable _nearbyItem;
+    public List<Interactable> _nearbyItems = new List<Interactable>();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out Interactable item))
         {
-            _nearbyItem = item;
+            _nearbyItems.Add(item);
             item.PlayerInRange = true;
 
         }
@@ -20,9 +20,9 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (collision.TryGetComponent(out Interactable item))
         {
-            if(item ==  _nearbyItem)
+            if(_nearbyItems.Contains(item))
             {
-                _nearbyItem = null;
+                _nearbyItems.Remove(item);
                 item.PlayerInRange = false;
             }
         }
@@ -30,6 +30,10 @@ public class PlayerInteraction : MonoBehaviour
 
     public void InteractWithObject()
     {
-        if(_nearbyItem != null) _nearbyItem.OnInteract();
+        if (_nearbyItems[0] != null)
+        {
+            _nearbyItems[0].OnInteract();
+            _nearbyItems.Remove(_nearbyItems[0]);
+        }
     }
 }

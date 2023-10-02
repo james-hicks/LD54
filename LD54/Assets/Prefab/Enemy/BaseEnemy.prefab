@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5701159706734156765}
   - component: {fileID: 5701159706734156766}
   - component: {fileID: 5701159706734156767}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BaseEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,6 +110,7 @@ MonoBehaviour:
   _drops:
   - DropRate: 7
     ItemDrop: {fileID: 11400000, guid: c6f4aab41f5504b439ff2ff699ddb372, type: 2}
+  _enemyAnimator: {fileID: 0}
   _nextWaypointDistance: 1
   _attackDistance: 1.5
   _awareDistance: 10

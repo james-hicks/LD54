@@ -8,6 +8,7 @@ public class Bow : Ability
 
     public GameObject projectile;
     public Transform shotPoint;
+    [SerializeField] private Item ammo;
     // Update is called once per frame
     void Update()
     {
@@ -20,7 +21,16 @@ public class Bow : Ability
 
     public override void execute()
     {
-        Instantiate(projectile, shotPoint.position, transform.rotation);
+        if(Inventory.PlayerInventory.GetItem(ammo) != null)
+        {
+            Instantiate(projectile, shotPoint.position, transform.rotation);
+            Inventory.PlayerInventory.GetItem(ammo).ChangeQuantity(-1);
+        }
+        else
+        {
+            Debug.LogError("OUT OF AMMO");
+        }
+
     }
 
 

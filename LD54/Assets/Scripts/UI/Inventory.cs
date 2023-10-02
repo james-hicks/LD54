@@ -60,6 +60,19 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public InventorySlot GetItem(Item item)
+    {
+        foreach(InventorySlot slot in _inventorySlots)
+        {
+            if(slot.Item == item)
+            {
+                return slot;
+            }
+        }
+
+        return null;
+    }
+
     public static Inventory PlayerInventory;
 
 }

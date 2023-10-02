@@ -24,7 +24,7 @@ public class Arrow : MonoBehaviour
         Debug.Log("Entered collision with " + collision.gameObject.name);
         if (collision.TryGetComponent(out EnemyMovement enemy))
         {
-            enemy.HP -= damage;
+            enemy.HP -= damage + PlayerMovement.PlayerInstance.AP;
             DestroyProjectile();
         }
     }

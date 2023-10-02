@@ -169,7 +169,9 @@ public class EnemyMovement : MonoBehaviour
             if(drop.DropRate >= rng)
             {
                 GameObject a = Instantiate(drop.ItemDrop.SpawnablePrefab, transform.position, Quaternion.identity);
-                a.GetComponent<ItemPickup>().SetItem(drop.ItemDrop);
+                a.transform.position += new Vector3(UnityEngine.Random.Range(0.2f, 1f), UnityEngine.Random.Range(0.2f, 1f), 0);
+                if(a.GetComponent<ItemPickup>() != null) a.GetComponent<ItemPickup>().SetItem(drop.ItemDrop);
+                if(a.GetComponent<AbilityPickup>() != null) a.GetComponent<AbilityPickup>().SetItem(drop.ItemDrop);
             }
         }
     }
